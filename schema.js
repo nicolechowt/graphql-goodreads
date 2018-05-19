@@ -1,4 +1,3 @@
-//difference betwen require and import?
 const { graphql, GraphQLSchema,GraphQLObjectType,GraphQLInt,GraphQLString,GraphQLList } = require('graphql');
 
 //fetch doesn't exist in node
@@ -13,7 +12,7 @@ const BookType = new GraphQLObjectType({
 	name: 'Book',
 	description: '...',
 
-	fields: () => ({
+	fields: {
 		title:{
 			type: GraphQLString,
 			resolve: xml => xml.title[0]
@@ -23,14 +22,14 @@ const BookType = new GraphQLObjectType({
 			type: GraphQLString,
 			resolve: xml => xml.isbn[0]
 		}
-	})
+	}
 })
 
 const AuthorType = new GraphQLObjectType({
 	name: 'Author',
 	description: '...',
 
-	fields: () => ({
+	fields: {
 		name:{
 			type: GraphQLString,
 			resolve: xml =>
@@ -41,7 +40,7 @@ const AuthorType = new GraphQLObjectType({
 			resolve: xml =>
 				xml.GoodreadsResponse.author[0].books[0].book
 		}
-	})
+	}
 })
 
 module.exports = new GraphQLSchema({
@@ -49,18 +48,18 @@ module.exports = new GraphQLSchema({
 		name: 'Query',
 		description: '...',
 
-		fields: () => ({
+		fields: {
 			author: {
 				type: AuthorType,
 				args: {
 					id: { type: GraphQLInt }
 				},
 				resolve: (root, args) => fetch(
-					`https://www.goodreads.com/author/show.xml?id=4432&key=CZX1ylOKSoMy8zbwk4xdRQ`
+					`https://www.goodreads.com/author/show.xml?id=${args.id}&key=CZX1ylOKSoMy8zbwk4xdRQ`
 				)
 				.then(response => response.text())
 				.then(parseXML)
 			}
-		})
+		}
 	})
 })
