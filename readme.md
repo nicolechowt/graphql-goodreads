@@ -58,6 +58,6 @@ query{
 > npm install
 > node serve
 > go to http://localhost:4000/graphql
-> copy and pasta sample query
+> copy and paste sample query
 ```
 
